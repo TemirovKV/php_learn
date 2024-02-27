@@ -1,14 +1,31 @@
 <?php
 
 require_once __DIR__ . '/incs/data.php';
-require_once __DIR__ . '/incs/validate.php';
+require_once __DIR__ . '/incs/functions.php';
+
 
 if (!empty($_POST))
 {
 	debug($_POST);
 	$fields = load($fields);
 	debug($fields);
+	$errors = searchErrors($fields);
+	if (count(array_flip($errors)) === 1 && end($errors) === 'true')
+	{
+		$to = $fields['email']['value'];
+		$subject = 'Success register';
+		$message = 'hallou';
+
+		mail($to, $subject, $message);
+	}
+	else
+	{
+		debug($errors);
+	}
+		
+
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +84,7 @@ if (!empty($_POST))
 			<form action="" method="POST">
 				<label>
 					E-mail <div class="star">*</div> <br>
-					<input type="email" name="email" value="emample@mail.ru" required>
+					<input type="text" name="email" value="" required>
 				</label><br>
 
 				<br>
@@ -76,7 +93,7 @@ if (!empty($_POST))
 					<div class="tel-div" style="margin-right: 40px;">
 						<label for="tel2">
 						Номер телефона <div class="star">*</div>
-						<input id="tel1" type="tel" name="phone_num" value="+7 000 000-00-00" required>
+						<input id="tel1" type="tel" name="phone_num" value="" required>
 						</label>
 					</div>
 					<div class="tel-div">
@@ -90,21 +107,21 @@ if (!empty($_POST))
 
 				<label>
 					Фамилия <div class="star">*</div> <br>
-					<input type="text" name="surname" value="Иванов" required>
+					<input type="text" name="surname" value="" >
 				</label><br>
 
 				<br>
 
 				<label>
 					Имя <div class="star">*</div> <br>
-					<input type="text" name="name" value="Иван" required>
+					<input type="text" name="name" value="" required>
 				</label><br>
 
 				<br>
 
 				<label>
 					Отчество<br>
-					<input type="text" name="patronymic" value="Иванович" >
+					<input type="text" name="patronymic" value="" >
 				</label><br>
 
 				<br>
